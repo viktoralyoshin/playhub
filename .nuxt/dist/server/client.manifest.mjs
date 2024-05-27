@@ -1,0 +1,1 @@
+export { default } from "file:///F:/Projects/PlayHub/playhub/node_modules/@nuxt/vite-builder/dist/runtime/client.manifest.mjs"

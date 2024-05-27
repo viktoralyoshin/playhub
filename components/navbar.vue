@@ -26,31 +26,25 @@
           >статьи</a
         >
       </nav>
-      <Button class="hidden sm:flex" variant="outline"
-        ><UserRound class="w-6 h-6 mr-2" />Войти</Button
+      <Button class="hidden sm:flex" variant="outline" as-child
+        ><a href="/signin"><UserRound class="w-6 h-6 mr-2" />Войти</a></Button
       >
+      <!-- <UserRound class="w-6 h-6 mr-2" /> -->
       <Sheet>
         <SheetTrigger as-child>
           <AlignRight class="sm:hidden flex" />
         </SheetTrigger>
         <SheetContent>
           <SheetHeader>
-            <SheetTitle><img src="/logo.png" width="40" height="40" alt="logo" /></SheetTitle>
+            <SheetTitle
+              ><img src="/logo.png" width="40" height="40" alt="logo"
+            /></SheetTitle>
           </SheetHeader>
           <div class="py-[50px]">
             <nav class="flex flex-col gap-[30px]">
-              <a
-                href="#"
-                >Новинки</a
-              >
-              <a
-                href="#"
-                >Все игры</a
-              >
-              <a
-                href="#"
-                >Статьи</a
-              >
+              <a href="#">Новинки</a>
+              <a href="#">Все игры</a>
+              <a href="#">Статьи</a>
             </nav>
           </div>
           <SheetFooter>

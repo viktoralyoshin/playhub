@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full border-border border-2 rounded-3xl">
+  <div class="w-full border-border border rounded-3xl">
     <div class="flex md:flex-row flex-col md:p-8 p-4 md:items-center gap-8">
       <img src="/public/hades2/1.jpeg" class="md:w-[50%] rounded-3xl" alt="" />
       <div class="flex flex-col gap-6">
