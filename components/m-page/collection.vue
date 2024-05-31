@@ -9,14 +9,21 @@
         <div
           v-for="(_, index) in 5"
           :key="index"
-          class="sm:flex sm:flex-col hidden"
+          class="sm:flex flex-col hidden"
+        >
+          <MPageCollectionItem />
+        </div>
+        <div
+          v-for="(_, index) in 3"
+          :key="index"
+          class="sm:hidden flex-col flex"
         >
           <MPageCollectionItem />
         </div>
         <Drawer>
           <DrawerTrigger>
             <Button variant="outline" class="sm:hidden flex"
-              >Смотреть</Button
+              >Смотреть все</Button
             ></DrawerTrigger
           >
           <DrawerContent>

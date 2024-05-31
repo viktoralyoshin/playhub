@@ -13,7 +13,7 @@
       <p class="font-semibold truncate">Mount & Blade II: Bannerlord</p>
     </div>
     <div
-      class="flex justify-center items-center font-semibold py-2 bg-card rounded-full p-4 text-white mr-4 hover:text-black hover:bg-card-foreground transition-all duration-300 ease-in-out"
+      class="flex justify-center items-center font-semibold py-2 bg-green-700 rounded-full px-4 text-white mr-4"
     >
       75
     </div>
