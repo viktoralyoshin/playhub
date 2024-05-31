@@ -73,6 +73,8 @@ function onSubmit(event: Event) {
     description: userInfo,
   });
   userInfo.email = "";
+  userInfo.password = "";
+  navigateTo('/');
 }
 </script>
 
