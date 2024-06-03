@@ -6,9 +6,15 @@ export default defineNuxtConfig({
       Inter: '200..700',
       Poppins: '200..700'  
     }
-  }]],
+  }], '@pinia/nuxt'],
   shadcn: {
     prefix: 'UI',
     componentDir: './components/ui'
-  }
+  },
+  pinia: {
+    storesDirs: ['./stores/**'],
+  },
+  app: {
+    pageTransition: { name: 'page', mode: 'out-in' }
+  },
 })

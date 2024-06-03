@@ -14,7 +14,7 @@
         </div>
       </CardHeader>
       <CardContent>
-        <form @submit="onSubmit" class="flex flex-col gap-4">
+        <form @submit="login" class="flex flex-col gap-4" autocomplete="off">
           <div class="flex flex-col gap-2">
             <Label for="email">Email</Label>
             <Input
@@ -23,6 +23,7 @@
               required
               placeholder="example@example.com"
               v-model="userInfo.email"
+              autocomplete="false"
             ></Input>
           </div>
           <div class="flex flex-col gap-2">
@@ -33,11 +34,20 @@
               required
               placeholder="Пароль"
               v-model="userInfo.password"
+              autocomplete="false"
             ></Input>
           </div>
-          <button type="submit" class="bg-primary py-2 rounded-md">
+          <button
+            v-if="!isLoading"
+            type="submit"
+            class="bg-primary py-2 rounded-md"
+          >
             Войти
           </button>
+          <Button v-else disabled>
+            <Loader2 class="w-4 h-4 mr-2 animate-spin" />
+            Идёт вход
+          </Button>
         </form>
       </CardContent>
     </Card>
@@ -50,7 +60,8 @@ definePageMeta({
 });
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { toast } from "@/components/ui/toast";
+import { Button } from "@/components/ui/button";
+import { Loader2 } from "lucide-vue-next";
 import {
   Card,
   CardContent,
@@ -60,22 +71,35 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
+const isLoadingStore = useIsLoadingStore();
+const isLoading = ref(false);
 const userInfo = reactive({
   email: "",
   password: "",
 });
 
-function onSubmit(event: Event) {
+const login = async (event: Event) => {
+  isLoadingStore.set(true)
   event.preventDefault();
-  console.log("Form submitted!");
-  toast({
-    title: "Form submitted!",
-    description: userInfo,
+  isLoading.value = true;
+  const response = await $fetch("http://localhost:5000/api/user/login", {
+    method: "POST",
+    credentials: "include",
+    body: JSON.stringify(userInfo),
   });
-  userInfo.email = "";
-  userInfo.password = "";
-  navigateTo('/');
-}
+  if (response.message == "success") {
+    navigateTo("/");
+    userInfo.email = "";
+    userInfo.password = "";
+    isLoading.value = false;
+  } else {
+    isLoadingStore.set(false)
+    toast({
+      title: "Попробуйте ещё раз",
+      description: response,
+    });
+  }
+};
 </script>
 
 <style></style>

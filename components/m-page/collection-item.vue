@@ -1,6 +1,7 @@
 <template>
   <div
     class="flex rounded-xl items-center justify-between hover:bg-muted transition-all duration-300 ease-in-out cursor-pointer"
+    @click="() => navigateTo('/games/dota2/')"
   >
     <div class="flex items-center gap-2">
       <img

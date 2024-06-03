@@ -144,6 +144,7 @@
         </Accordion>
       </div>
     </div>
+    <Footer />
   </div>
 </template>
 
@@ -168,26 +169,27 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 
 import Autoplay from "embla-carousel-autoplay";
-import UserItemVue from "~/components/m-page/user-item.vue";
 
 const defaultValue = "item-1";
 
 const accordionItems = [
   {
     value: "item-1",
-    title: "Is it accessible?",
-    content: "Yes. It adheres to the WAI-ARIA design pattern.",
+    title: "Что такое платформа подбора игр?",
+    content:
+      "Платформа подбора игр — это онлайн-сервис, который помогает пользователям находить игры, соответствующие их предпочтениям и интересам.",
   },
   {
     value: "item-2",
-    title: "Is it unstyled?",
+    title: "Какие данные используются для подбора игр?",
     content:
-      "Yes. It's unstyled by default, giving you freedom over the look and feel.",
+      "Платформы могут использовать информацию о ваших предпочтениях (жанры, типы игр, предпочитаемые платформы), историю игровой активности, отзывы других пользователей и другие данные для формирования рекомендаций.",
   },
   {
     value: "item-3",
-    title: "Can it be animated?",
-    content: "Yes! You can use the transition prop to configure the animation.",
+    title: "Могу ли я доверять рекомендациям платформы подбора игр?",
+    content:
+      "Решение о том, доверять ли рекомендациям платформы, остается за вами. Платформы стараются предложить наиболее подходящие игры на основе доступной информации, но итоговое решение всегда зависит от вас.",
   },
 ];
 </script>

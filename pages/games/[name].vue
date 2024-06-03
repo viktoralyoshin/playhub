@@ -49,21 +49,64 @@
         </div>
         <div class="sm:px-12 px-6">
           <div class="flex flex-col gap-2">
-          <div class="flex flex-col">
-            <h1 class="font-semibold text-[56px]">Dota 2</h1>
+            <div class="flex gap-2 items-center">
+              <h1 class="font-semibold text-[56px]">Dota 2</h1>
+              <div
+                class="flex justify-center items-center font-semibold py-2 bg-green-700 rounded-full px-4 text-white mr-4"
+              >
+                95
+              </div>
+            </div>
             <div>
-              <p class="text-muted-foreground font-medium text-[18px]">Издатель</p>
+              <p class="text-muted-foreground font-medium text-[18px]">
+                Издатель
+              </p>
               <p class="font-medium text-[24px]">Valve</p>
             </div>
             <div>
-              <p class="text-muted-foreground font-medium text-[18px]">Дата выхода</p>
+              <p class="text-muted-foreground font-medium text-[18px]">
+                Дата выхода
+              </p>
               <p class="font-medium text-[24px]">10.07.2013</p>
+            </div>
+            <Separator />
+            <div>
+              <p class="text-muted-foreground font-medium text-[18px]">
+                Описание
+              </p>
+              <p class="font-medium text-[24px]">
+                Каждый день миллионы игроков по всему миру вступают в командную
+                битву 5 на 5 в роли одного из более чем сотни героев. Dota —
+                глубочайшая многопользовательская стратегия всех времён, в
+                которой всегда найдётся место новой стратегии или тактике. Она
+                совершенно бесплатна, и это не поменяется — начинайте защищать
+                своего Древнего уже сейчас.
+              </p>
+            </div>
+            <Separator />
+            <div>
+              <p class="text-muted-foreground font-medium text-[18px]">
+                Платформы
+              </p>
+              <div class="flex items-center gap-2">
+                <img src="/public/steam.png" width="30px" alt="steam" />
+                <p class="font-semibold text-[18px]">Бесплатно</p>
+              </div>
             </div>
           </div>
         </div>
+        <Separator />
+        <div class="sm:px-12 px-6 flex flex-col gap-2">
+          <h1 class="font-semibold text-[56px]">Отзывы</h1>
+          <div class="flex flex-col gap-4">
+            <div v-for="(_, index) in 5" :key="index">
+              <GamesReview />
+            </div>
+          </div>
         </div>
       </div>
     </div>
+    <Footer />
   </div>
 </template>
 
@@ -78,6 +121,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+import { Separator } from "@/components/ui/separator";
 import { Card, CardContent } from "@/components/ui/card";
 
 const images = [

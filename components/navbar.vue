@@ -1,10 +1,10 @@
 <template>
-  <div class="w-full bg-transparent absolute">
+  <div class="w-screen bg-transparent absolute">
     <div
       class="flex justify-between items-center px-4 max-w-[1400px] mx-auto py-4"
     >
       <div class="flex items-center gap-[40px]">
-        <div class="flex gap-[10px] items-center">
+        <div class="flex gap-[10px] items-center cursor-pointer" @click="()=>navigateTo('/')">
           <img src="/logo.png" width="50" alt="logo" />
           <h1 class="font-semibold text-[24px] font-eng">
             <span class="font-eng text-primary font-semibold">Play</span>Hub
@@ -29,10 +29,12 @@
         </nav>
       </div>
       <Button
+        v-if="!authStore.isAuth"
         class="hidden sm:flex hover:bg-accent-foreground text-black backdrop-opacity-10 backdrop-invert bg-white/60"
         as-child
         ><a href="/signin"><UserRound class="w-6 h-6 mr-2" />Войти</a></Button
       >
+      <NavbarProfile v-else />
       <!-- <UserRound class="w-6 h-6 mr-2" /> -->
       <Sheet>
         <SheetTrigger as-child>
@@ -53,8 +55,8 @@
           </div>
           <SheetFooter>
             <SheetClose as-child>
-              <Button type="submit">
-                <UserRound class="w-6 h-6 mr-2" />Войти
+              <Button type="submit" as-child>
+                <a href="/signin"><UserRound class="w-6 h-6 mr-2" />Войти</a>
               </Button>
             </SheetClose>
           </SheetFooter>
@@ -65,6 +67,7 @@
 </template>
 
 <script lang="ts" setup>
+
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -77,6 +80,9 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { UserRound, AlignRight } from "lucide-vue-next";
+
+const authStore = useAuthStore();
+
 </script>
 
 <style></style>
