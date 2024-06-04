@@ -82,7 +82,7 @@ const login = async (event: Event) => {
   isLoadingStore.set(true)
   event.preventDefault();
   isLoading.value = true;
-  const response = await $fetch("http://localhost:5000/api/user/login", {
+  const response = await $fetch("http://92.53.105.185:5000/api/user/login", {
     method: "POST",
     credentials: "include",
     body: JSON.stringify(userInfo),

@@ -1,12 +1,12 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  devtools: { enabled: true },
+  devtools: { enabled: false },
   modules: ["@nuxtjs/tailwindcss", "shadcn-nuxt", ["@nuxtjs/google-fonts",{
     families: {
       Inter: '200..700',
       Poppins: '200..700'  
     }
-  }], '@pinia/nuxt'],
+  }], '@pinia/nuxt', 'nuxt-file-storage'],
   shadcn: {
     prefix: 'UI',
     componentDir: './components/ui'
@@ -17,4 +17,8 @@ export default defineNuxtConfig({
   app: {
     pageTransition: { name: 'page', mode: 'out-in' }
   },
+  fileStorage: {
+    // enter the absolute path to the location of your storage
+    mount: 'nuxt-file-storage/server/files',
+},
 })

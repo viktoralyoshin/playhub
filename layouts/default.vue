@@ -18,11 +18,12 @@ const isLoadingStore = useIsLoadingStore();
 
 onMounted(async () => {
   try {
-    const response = await $fetch("http://localhost:5000/api/user/verify", {
+    const response = await $fetch("http://92.53.105.185:5000/api/user/verify", {
       method: "GET",
       credentials: "include",
     });
     authStore.set({
+      id: response.id,
       email: response.email,
       username: response.username,
       level: response.level,

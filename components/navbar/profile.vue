@@ -54,7 +54,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 const authStore = useAuthStore();
 
 const logout = async () => {
-  const response = await $fetch("http://localhost:5000/api/user/logout", {
+  const response = await $fetch("http://92.53.105.185:5000/api/user/logout", {
     method: "post",
     credentials: "include",
   });

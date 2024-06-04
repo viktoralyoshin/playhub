@@ -101,7 +101,11 @@ const _inlineRuntimeConfig = {
       }
     }
   },
-  "public": {}
+  "public": {
+    "fileStorage": {
+      "mount": "nuxt-file-storage/server/files"
+    }
+  }
 };
 const envOptions = {
   prefix: "NITRO_",
@@ -599,23 +603,6 @@ function getRouteRulesForPath(path) {
   return defu({}, ..._routeRulesMatcher.matchAll(path).reverse());
 }
 
-const script = `
-if (!window.__NUXT_DEVTOOLS_TIME_METRIC__) {
-  Object.defineProperty(window, '__NUXT_DEVTOOLS_TIME_METRIC__', {
-    value: {},
-    enumerable: false,
-    configurable: true,
-  })
-}
-window.__NUXT_DEVTOOLS_TIME_METRIC__.appInit = Date.now()
-`;
-
-const _q3mv6LbPpl = (function(nitro) {
-  nitro.hooks.hook("render:html", (htmlContext) => {
-    htmlContext.head.push(`<script>${script}<\/script>`);
-  });
-});
-
 const rootDir = "F:/Projects/PlayHub/playhub";
 
 const asyncContext = getContext("nuxt-dev", { asyncContext: true, AsyncLocalStorage });
@@ -685,8 +672,7 @@ function onConsoleLog(callback) {
 }
 
 const plugins = [
-  _q3mv6LbPpl,
-_asK7V10MhZ
+  _asK7V10MhZ
 ];
 
 const scheduledTasks = false;

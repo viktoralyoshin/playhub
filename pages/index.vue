@@ -55,7 +55,7 @@
                     class="sm:basis-[100%] xl:basis-[33%]"
                   >
                     <div class="p-1">
-                      <MPageCollection />
+                      <!-- <MPageCollection /> -->
                     </div>
                   </CarouselItem>
                 </CarouselContent>
@@ -111,10 +111,9 @@
         </p>
         <Separator class="my-4" />
         <div class="flex flex-col gap-2">
-          <MPageCollectionItem
-            v-for="(_, index) in 10"
-            :key="index"
-          ></MPageCollectionItem>
+          <div v-for="game in games" :key="game.id">
+            <MPageCollectionItem :game="game"></MPageCollectionItem>
+          </div>
           <Button variant="ghost">Смотреть все</Button>
         </div>
       </div>
@@ -169,6 +168,10 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 
 import Autoplay from "embla-carousel-autoplay";
+
+const games = await $fetch("http://92.53.105.185:5000/api/game/getall");
+
+console.log(games);
 
 const defaultValue = "item-1";
 

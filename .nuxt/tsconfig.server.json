@@ -102,7 +102,7 @@
     "../node_modules/shadcn-nuxt/runtime/server",
     "../node_modules/@nuxtjs/google-fonts/runtime/server",
     "../node_modules/@pinia/nuxt/runtime/server",
-    "../node_modules/@nuxt/devtools/runtime/server",
+    "../node_modules/nuxt-file-storage/runtime/server",
     "../node_modules/@nuxt/telemetry/runtime/server",
     "./types/nitro.d.ts",
     "../**/*",

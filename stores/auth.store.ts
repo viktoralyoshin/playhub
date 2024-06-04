@@ -1,4 +1,5 @@
 interface IAuthStore {
+  id: string
   email: string
   username: string
   level: number
@@ -8,6 +9,7 @@ interface IAuthStore {
 
 const defaultValue: {user: IAuthStore} = {
   user: {
+    id: '',
     email: '',
     username: '',
     level: 1,
