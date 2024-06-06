@@ -1,1 +1,0 @@
-import{T as e,t as s,v as t,x as c}from"./DqIkjvx5.js";import{_ as o}from"./DlAUqK2U.js";const n=e("/loader.svg"),r={},_={class:"flex items-center justify-center bg-background h-screen w-screen"},a=c("img",{src:n,alt:""},null,-1),i=[a];function l(m,d){return s(),t("div",_,i)}const u=o(r,[["render",l]]);export{u as _};

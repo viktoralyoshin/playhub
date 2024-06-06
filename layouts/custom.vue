@@ -1,36 +1,37 @@
 <template>
-  <Loader v-if="isLoadingStore.isLoading" />
-  <section v-else>
-    <div class="h-screen md:flex hidden justify-center items-center">
-      <slot />
-      <div class="bg-image h-full flex md:w-1/2 xl:w-2/3"></div>
-    </div>
-    <div class="h-screen flex md:hidden justify-center items-center bg-image">
-      <slot />
-      <div class="bg-image h-full hidden md:flex md:w-1/2 xl:w-2/3"></div>
-    </div>
-  </section>
+  <div>
+    <Loader v-if="isLoadingStore.isLoading" />
+    <section v-else>
+      <div class="h-screen flex justify-center items-center">
+        <slot />
+      </div>
+    </section>
+  </div>
 </template>
 
 <script lang="ts" setup>
 import { useAuthStore, useIsLoadingStore } from "~/stores/auth.store";
-const authStore = useAuthStore();
 const isLoadingStore = useIsLoadingStore();
-onMounted(async () => {
+onBeforeMount(async () => {
+  const authStore = useAuthStore();
   try {
     const response = await $fetch("http://92.53.105.185:5000/api/user/verify", {
-      method: "GET",
-      credentials: "include",
+      method: "POST",
+      body: {
+        token: localStorage.getItem("token"),
+      },
     });
+    localStorage.setItem("token", response.token);
     authStore.set({
-      id: response.id,
-      email: response.email,
-      username: response.username,
-      level: response.level,
-      role: response.role,
+      id: response.user.id,
+      email: response.user.email,
+      username: response.user.username,
+      level: response.user.level,
+      role: response.user.role,
+      avatar: response.user.avatar,
       status: true,
     });
-    navigateTo("/");
+    await navigateTo("/");
   } catch (e) {
     authStore.clear();
   } finally {

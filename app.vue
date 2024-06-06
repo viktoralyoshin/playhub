@@ -7,6 +7,9 @@
 
 <script lang="ts" setup>
 import Toaster from "@/components/ui/toast/Toaster.vue";
+useHead({
+  title: 'PlayHub',
+})
 </script>
 
 <style>

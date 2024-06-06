@@ -1,1 +1,0 @@
-import{aC as e}from"./DqIkjvx5.js";const s={user:{email:"",username:"",level:1,role:"guest",status:!1}},i=e("auth",{state:()=>s,getters:{isAuth:t=>t.user.status},actions:{clear(){this.$patch(s)},set(t){this.$patch({user:t})}}}),o=e("isLoading",{state:()=>({isLoading:!0}),actions:{set(t){this.$patch({isLoading:t})}}});export{o as a,i as u};

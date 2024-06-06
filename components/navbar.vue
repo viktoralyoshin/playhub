@@ -4,27 +4,30 @@
       class="flex justify-between items-center px-4 max-w-[1400px] mx-auto py-4"
     >
       <div class="flex items-center gap-[40px]">
-        <div class="flex gap-[10px] items-center cursor-pointer" @click="()=>navigateTo('/')">
-          <img src="/logo.png" width="50" alt="logo" />
-          <h1 class="font-semibold text-[24px] font-eng">
+        <div
+          class="flex gap-[10px] items-center cursor-pointer"
+          @click="async () => await navigateTo('/', { replace: true })"
+        >
+          <img src="/logo.png" class="sm:w-[50px] w-[40px]" alt="logo" />
+          <h1 class="font-semibold text-[18px] sm:text-[24px] font-eng">
             <span class="font-eng text-primary font-semibold">Play</span>Hub
           </h1>
         </div>
         <nav class="hidden gap-[20px] items-center text-[18px] sm:flex">
-          <a
-            href="#"
+          <NuxtLink
+            to="/#new"
             class="opacity-70 hover:opacity-100 transition-all ease-in-out duration-300"
-            >Новинки</a
+            >Новинки</NuxtLink
           >
-          <a
-            href="#"
+          <NuxtLink
+            to="/allgames"
             class="opacity-70 hover:opacity-100 transition-all ease-in-out duration-300"
-            >Все игры</a
+            >Все игры</NuxtLink
           >
-          <a
-            href="#"
+          <NuxtLink
+            to="/articles"
             class="opacity-70 hover:opacity-100 transition-all ease-in-out duration-300"
-            >Статьи</a
+            >Статьи</NuxtLink
           >
         </nav>
       </div>
@@ -34,8 +37,7 @@
         as-child
         ><a href="/signin"><UserRound class="w-6 h-6 mr-2" />Войти</a></Button
       >
-      <NavbarProfile v-else />
-      <!-- <UserRound class="w-6 h-6 mr-2" /> -->
+      <NavbarProfile v-else class="hidden sm:flex" />
       <Sheet>
         <SheetTrigger as-child>
           <AlignRight class="sm:hidden flex" />
@@ -48,18 +50,15 @@
           </SheetHeader>
           <div class="py-[50px]">
             <nav class="flex flex-col gap-[30px]">
-              <a href="#">Новинки</a>
-              <a href="#">Все игры</a>
-              <a href="#">Статьи</a>
+              <NuxtLink to="/#new">Новинки</NuxtLink>
+              <NuxtLink to="/allgames">Все игры</NuxtLink>
+              <NuxtLink to="/articles">Статьи</NuxtLink>
             </nav>
           </div>
-          <SheetFooter>
-            <SheetClose as-child>
-              <Button type="submit" as-child>
-                <a href="/signin"><UserRound class="w-6 h-6 mr-2" />Войти</a>
-              </Button>
-            </SheetClose>
-          </SheetFooter>
+          <Button v-if="!authStore.isAuth" type="submit" as-child>
+            <a href="/signin"><UserRound class="w-6 h-6 mr-2" />Войти</a>
+          </Button>
+          <NavbarProfile v-else />
         </SheetContent>
       </Sheet>
     </div>
@@ -67,7 +66,6 @@
 </template>
 
 <script lang="ts" setup>
-
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -82,7 +80,6 @@ import {
 import { UserRound, AlignRight } from "lucide-vue-next";
 
 const authStore = useAuthStore();
-
 </script>
 
 <style></style>

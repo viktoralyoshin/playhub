@@ -1,5 +1,8 @@
 <template>
   <div class="max-w-[1400px] px-4 mx-auto sm:w-[70%] w-[90%] md:w-[50%]">
+    <Head>
+      <Title>PlayHub | Вход</Title>
+    </Head>
     <Card>
       <CardHeader class="gap-10">
         <div class="flex gap-[10px] items-center">
@@ -37,6 +40,7 @@
               autocomplete="false"
             ></Input>
           </div>
+          <NuxtLink to="/signup" class="hover:text-primary transition-all duration-200 ease-in-out">Ещё нет аккаунта? Создайте аккаунт</NuxtLink>
           <button
             v-if="!isLoading"
             type="submit"
@@ -58,6 +62,7 @@
 definePageMeta({
   layout: "custom",
 });
+import { toast } from "@/components/ui/toast";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
@@ -70,7 +75,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-
 const isLoadingStore = useIsLoadingStore();
 const isLoading = ref(false);
 const userInfo = reactive({
@@ -79,24 +83,24 @@ const userInfo = reactive({
 });
 
 const login = async (event: Event) => {
-  isLoadingStore.set(true)
+  isLoadingStore.set(true);
   event.preventDefault();
   isLoading.value = true;
   const response = await $fetch("http://92.53.105.185:5000/api/user/login", {
     method: "POST",
-    credentials: "include",
     body: JSON.stringify(userInfo),
   });
   if (response.message == "success") {
-    navigateTo("/");
+    localStorage.setItem('token', response.token);
+    await navigateTo("/");
     userInfo.email = "";
     userInfo.password = "";
     isLoading.value = false;
   } else {
-    isLoadingStore.set(false)
+    isLoadingStore.set(false);
     toast({
       title: "Попробуйте ещё раз",
-      description: response,
+      description: response.message,
     });
   }
 };

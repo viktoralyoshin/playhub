@@ -8,8 +8,6 @@
         </h1>
       </div>
       <div class="flex items-center gap-[10px]">
-        <span class="iconify hugeicons--telegram text-[30px]" style="color: white;"></span>
-        <span class="iconify hugeicons--vk text-[30px]" style="color: white;"></span>
       </div>
     </div>
   </div>

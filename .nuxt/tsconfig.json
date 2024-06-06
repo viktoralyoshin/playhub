@@ -90,7 +90,7 @@
         "./imports"
       ],
       "#app-manifest": [
-        "./manifest/meta/dev"
+        "./manifest/meta/02c67f80-f064-4dfc-9235-ac7effb2d436.json"
       ],
       "#build": [
         "."
@@ -129,7 +129,7 @@
     "../node_modules/shadcn-nuxt/runtime",
     "../node_modules/@nuxtjs/google-fonts/runtime",
     "../node_modules/@pinia/nuxt/runtime",
-    "../node_modules/nuxt-file-storage/runtime",
+    "../node_modules/@nuxt/devtools/runtime",
     "../node_modules/@nuxt/telemetry/runtime",
     ".."
   ],
@@ -140,7 +140,7 @@
     "../node_modules/shadcn-nuxt/runtime/server",
     "../node_modules/@nuxtjs/google-fonts/runtime/server",
     "../node_modules/@pinia/nuxt/runtime/server",
-    "../node_modules/nuxt-file-storage/runtime/server",
+    "../node_modules/@nuxt/devtools/runtime/server",
     "../node_modules/@nuxt/telemetry/runtime/server",
     "../dist",
     "../.output"

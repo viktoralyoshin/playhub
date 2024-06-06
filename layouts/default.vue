@@ -3,8 +3,7 @@
     <Loader v-if="isLoadingStore.isLoading" />
     <div v-else>
       <Navbar />
-      <slot>
-      </slot>
+      <slot> </slot>
     </div>
   </div>
 </template>
@@ -12,22 +11,24 @@
 <script lang="ts" setup>
 import { useAuthStore, useIsLoadingStore } from "~/stores/auth.store";
 import { toast } from "@/components/ui/toast";
-
-const authStore = useAuthStore();
 const isLoadingStore = useIsLoadingStore();
-
+const authStore = useAuthStore();
 onMounted(async () => {
   try {
     const response = await $fetch("http://92.53.105.185:5000/api/user/verify", {
-      method: "GET",
-      credentials: "include",
+      method: "POST",
+      body: {
+        token: localStorage.getItem('token'),
+      },
     });
+    localStorage.setItem('token', response.token)
     authStore.set({
-      id: response.id,
-      email: response.email,
-      username: response.username,
-      level: response.level,
-      role: response.role,
+      id: response.user.id,
+      email: response.user.email,
+      username: response.user.username,
+      level: response.user.level,
+      role: response.user.role,
+      avatar: response.user.avatar,
       status: true,
     });
     toast({

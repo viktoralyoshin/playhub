@@ -1,12 +1,12 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  devtools: { enabled: false },
+  devtools: { enabled: true },
   modules: ["@nuxtjs/tailwindcss", "shadcn-nuxt", ["@nuxtjs/google-fonts",{
     families: {
       Inter: '200..700',
       Poppins: '200..700'  
     }
-  }], '@pinia/nuxt', 'nuxt-file-storage'],
+  }], '@pinia/nuxt'],
   shadcn: {
     prefix: 'UI',
     componentDir: './components/ui'

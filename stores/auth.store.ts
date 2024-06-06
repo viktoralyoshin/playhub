@@ -4,6 +4,7 @@ interface IAuthStore {
   username: string
   level: number
   role: string
+  avatar: string
   status: boolean
 }
 
@@ -14,6 +15,7 @@ const defaultValue: {user: IAuthStore} = {
     username: '',
     level: 1,
     role: 'guest',
+    avatar: '',
     status: false,
   },
 }

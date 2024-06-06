@@ -2,40 +2,31 @@
   <div>
     <Card>
       <CardHeader>
-        <CardTitle>RPG</CardTitle>
-        <CardDescription>Ролевые игры</CardDescription>
+        <CardTitle>{{ collection.name }}</CardTitle>
+        <CardDescription>{{ collection.description }}</CardDescription>
       </CardHeader>
       <CardContent class="flex flex-col gap-4">
-        <div
-          v-for="(_, index) in 5"
-          :key="index"
-          class="sm:flex flex-col hidden"
-        >
-          <MPageCollectionItem />
-        </div>
-        <div
-          v-for="(_, index) in 3"
-          :key="index"
-          class="sm:hidden flex-col flex"
-        >
-          <MPageCollectionItem />
+        <div v-for="game in games" class="sm:flex flex-col hidden">
+          <MPageCollectionItem :game />
         </div>
         <Drawer>
           <DrawerTrigger>
             <Button variant="outline" class="sm:hidden flex"
-              >Смотреть все</Button
+              >Посмотреть</Button
             ></DrawerTrigger
           >
           <DrawerContent>
             <DrawerHeader>
-              <DrawerTitle>RPG</DrawerTitle>
-              <DrawerDescription>Ролевые игры</DrawerDescription>
+              <DrawerTitle>{{ collection.name }}</DrawerTitle>
+              <DrawerDescription>{{
+                collection.description
+              }}</DrawerDescription>
             </DrawerHeader>
-            <div class="flex flex-col gap-4 mx-4">
-              <div v-for="(_, index) in 5" :key="index">
-                <MPageCollectionItem />
+            <ScrollArea class="flex flex-col gap-4 mx-4">
+              <div v-for="game in games">
+                <MPageCollectionItem :game />
               </div>
-            </div>
+            </ScrollArea>
             <DrawerFooter>
               <DrawerClose>
                 <Button variant="outline"> Закрыть </Button>
@@ -68,6 +59,23 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
+
+import { ScrollArea } from '@/components/ui/scroll-area'
+
+const props = defineProps({
+  collection: {
+    type: Object,
+    required: true,
+  },
+});
+const { collection } = props;
+
+const games = await $fetch("http://92.53.105.185:5000/api/collection/getGames", {
+  method: "POST",
+  body: {
+    id: collection.id,
+  },
+});
 </script>
 
 <style></style>
