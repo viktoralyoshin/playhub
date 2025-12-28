@@ -1,7 +1,7 @@
 #!/bin/bash
 GITHUB_USER_1="viktoralyoshin"
 GITHUB_USER_2="ddashadyy"
-SERVICES_1=("api-gateway" "auth-service" "rating-service" "social-service")
+SERVICES_1=("api-gateway" "auth-service" "social-service")
 SERVICES_2=("game-service")
 
 GREEN='\033[0;32m'
