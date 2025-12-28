@@ -10,6 +10,7 @@ services:
       - GAMES_SERVICE_ADDR=game-service:50052
       - AUTH_SERVICE_ADDR=auth-service:50051
       - SOCIAL_SERVICE_ADDR=social-service:50053
+      - LIBRARY_SERVICE_ADDR=library-service:50054
       - REFRESH_TOKEN_TTL=128h
       - DOMAIN=localhost
       - ENV=dev
@@ -91,6 +92,18 @@ services:
     env_file:
       - .env
 
+  library-service:
+    container_name: library-service
+    build: ./library-service
+    depends_on:
+      postgres-library:
+        condition: service_healthy
+    ports:
+      - '8083:8083'
+      - '50054:50054'
+    environment:
+      - DB_CONNECTION=postgresql://user:user@postgres-library:5432/playhub-library
+
   postgres-auth:
     container_name: ph-postgres-auth
     image: postgres:15-alpine
@@ -152,6 +165,27 @@ services:
       timeout: 5s
       retries: 5
 
+  postgres-library:
+    container_name: ph-postgres-library
+    image: postgres:15-alpine
+    restart: always
+    ports:
+      - '5435:5432'
+    volumes:
+      - pg_library_data:/var/lib/postgresql/data
+      - ./init_library.sql:/docker-entrypoint-initdb.d/init_library.sql
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: user
+      POSTGRES_DB: playhub-library
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - pg_isready -U user -d playhub-library
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
   kafka:
     container_name: kafka
     image: confluentinc/cp-kafka:latest
@@ -199,3 +233,4 @@ volumes:
   pg_auth_data: null
   pg_games_data: null
   pg_social_data: null
+  pg_library_data: null

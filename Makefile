@@ -1,5 +1,5 @@
 SERVICES = api-gateway auth-service rating-service social-service
-PROTO_VERSION = v1.1.27
+PROTO_VERSION = v1.1.34
 UTILS_VERSION = v1.4.0
 
 .PHONY: get getutils tidy all-updates

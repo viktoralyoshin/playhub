@@ -5,4 +5,5 @@ game-service/
 rating-service/
 social-service/
 playhub-proto/
+library-service/
 .env
