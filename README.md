@@ -96,7 +96,7 @@ service GameService {
 - DB_CONNECTION
 ```
 ---
-### game-serivice
+### auth-serivice
 
 Управляет авторизацией пользователей и самими пользователями
 
