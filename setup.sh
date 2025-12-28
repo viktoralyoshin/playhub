@@ -8,9 +8,9 @@ GREEN='\033[0;32m'
 BLUE='\033[0;34m'
 NC='\033[0m'
 
-echo -e "${BLUE} Starting PlayHub Installation...${NC}"
+echo -e "${BLUE}▶ Starting PlayHub Installation...${NC}"
 
-echo -e "${BLUE} Cloning microservices...${NC}"
+echo -e "${BLUE}▶ Cloning microservices...${NC}"
 for service in "${SERVICES_1[@]}"; do
     if [ -d "$service" ]; then
         echo -e "⏩ Service $service already exists, skipping clone..."
@@ -27,7 +27,7 @@ for service in "${SERVICES_2[@]}"; do
     fi
 done
 
-echo -e "${BLUE} Running Makefile...${NC}"
+echo -e "${BLUE}▶ Running Makefile...${NC}"
 make all-updates
 
 echo -e "${GREEN}Installation Complete! All services are ready"

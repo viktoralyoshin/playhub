@@ -12,7 +12,7 @@ get:
 
 getutils:
 	@for service in $(SERVICES); do \
-		echo "🛠 Updating utils in $$service..."; \
+		echo "Updating utils in $$service..."; \
 		cd $$service && go get -u github.com/viktoralyoshin/utils@$(UTILS_VERSION) && cd ..; \
 	done
 
