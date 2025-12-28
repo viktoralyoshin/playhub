@@ -26,6 +26,7 @@ for service in "${SERVICES_2[@]}"; do
         git clone "https://github.com/$GITHUB_USER_2/$service.git"
         cd $service/ && mkdir third_party && cd third_party
         git clone "https://github.com/$GITHUB_USER_1/playhub-proto.git"
+        cd ../../
     fi
 done
 
