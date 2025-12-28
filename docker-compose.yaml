@@ -1,0 +1,201 @@
+services:
+  api-gateway:
+    container_name: api-gateway
+    build: ./api-gateway
+    depends_on:
+      - auth-service
+    ports:
+      - '8080:8080'
+    environment:
+      - GAMES_SERVICE_ADDR=game-service:50052
+      - AUTH_SERVICE_ADDR=auth-service:50051
+      - SOCIAL_SERVICE_ADDR=social-service:50053
+      - REFRESH_TOKEN_TTL=128h
+      - DOMAIN=localhost
+      - ENV=dev
+
+  auth-service:
+    container_name: auth-service
+    build: ./auth-service
+    depends_on:
+      postgres-auth:
+        condition: service_healthy
+    ports:
+      - '50051:50051'
+    environment:
+      - DBUser=user
+      - DBHost=postgres-auth
+      - DBPassword=user
+      - DBPort=5432
+      - DBName=playhub-auth
+      - GRPCPort=50051
+      - ACCESS_TOKEN_TTL=5m
+      - REFRESH_TOKEN_TTL=128h
+      - JWT_SIGNING_KEY=secret
+      - ENV=dev
+
+  social-service:
+    container_name: social-service
+    build: ./social-service
+    depends_on:
+      kafka:
+        condition: service_healthy
+      kafka-init:
+        condition: service_completed_successfully
+      postgres-social:
+        condition: service_healthy
+    ports:
+      - '50053:50053'
+    environment:
+      - DB_USER=user
+      - DB_HOST=postgres-social
+      - DB_PASSWORD=user
+      - DB_PORT=5432
+      - DB_NAME=playhub-social
+      - GRPC_PORT=50053
+      - GAME_SERVICE_ADDR=game-service:50052
+      - AUTH_SERVICE_ADDR=auth-service:50051
+      - KAFKA_ADDR=kafka:9092
+      - ENV=dev
+
+  rating-service:
+    container_name: rating-service
+    build: ./rating-service
+    depends_on:
+      kafka:
+        condition: service_healthy
+      kafka-init:
+        condition: service_completed_successfully
+    ports:
+      - '8082:8082'
+    environment:
+      - PORT=8082
+      - GAME_SERVICE_ADDR=game-service:50052
+      - SOCIAL_SERVICE_ADDR=social-service:50053
+      - KAFKA_ADDR=kafka:9092
+      - ENV=dev
+
+  game-service:
+    container_name: game-service
+    build: ./game-service
+    depends_on:
+      postgres-games:
+        condition: service_healthy
+    ports:
+      - '8081:8081'
+      - '50052:50052'
+    environment:
+      - CLIENT_ID=${IGDB_CLIENT_ID}
+      - CLIENT_SECRET=${IGDB_CLIENT_SECRET}
+      - DB_CONNECTION=postgresql://user:user@postgres-games:5432/playhub-games
+    env_file:
+      - .env
+
+  postgres-auth:
+    container_name: ph-postgres-auth
+    image: postgres:15-alpine
+    restart: always
+    ports:
+      - '5432:5432'
+    volumes:
+      - pg_auth_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: user
+      POSTGRES_DB: playhub-auth
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - pg_isready -U user -d playhub-auth
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  postgres-social:
+    container_name: ph-postgres-social
+    image: postgres:15-alpine
+    restart: always
+    ports:
+      - '5434:5432'
+    volumes:
+      - pg_social_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: user
+      POSTGRES_DB: playhub-social
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - pg_isready -U user -d playhub-social
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  postgres-games:
+    container_name: ph-postgres-games
+    image: postgres:15-alpine
+    restart: always
+    ports:
+      - '5433:5432'
+    volumes:
+      - pg_games_data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: user
+      POSTGRES_DB: playhub-games
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - pg_isready -U user -d playhub-games
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  kafka:
+    container_name: kafka
+    image: confluentinc/cp-kafka:latest
+    ports:
+      - '9092:9092'
+      - '9094:9094'
+    environment:
+      - KAFKA_NODE_ID=1
+      - KAFKA_PROCESS_ROLES=broker,controller
+      - KAFKA_CONTROLLER_QUORUM_VOTERS=1@kafka:29093
+      - KAFKA_LISTENERS=PLAINTEXT://:9092,EXTERNAL://:9094,CONTROLLER://:29093
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092,EXTERNAL://localhost:9094
+      - KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=PLAINTEXT:PLAINTEXT,EXTERNAL:PLAINTEXT,CONTROLLER:PLAINTEXT
+      - KAFKA_CONTROLLER_LISTENER_NAMES=CONTROLLER
+      - KAFKA_INTER_BROKER_LISTENER_NAME=PLAINTEXT
+      - KAFKA_CLUSTER_ID=MkU3OEVBNTcwNTJENDM2Qk
+      - KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1
+      - KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS=0
+      - KAFKA_TRANSACTION_STATE_LOG_MIN_ISR=1
+      - KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR=1
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - kafka-topics --bootstrap-server localhost:9092 --list
+      interval: 10s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+
+  kafka-init:
+    image: confluentinc/cp-kafka:latest
+    depends_on:
+      kafka:
+        condition: service_healthy
+    command: |
+      "
+      kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic review_events --partitions 1 --replication-factor 1 &&
+      echo 'TOPIC READY'
+      "
+    entrypoint:
+      - /bin/sh
+      - '-c'
+
+volumes:
+  pg_auth_data: null
+  pg_games_data: null
+  pg_social_data: null

@@ -1,0 +1,8 @@
+.vscode/
+api-gateway/
+auth-service/
+game-service/
+rating-service/
+social-service/
+playhub-proto/
+.env
